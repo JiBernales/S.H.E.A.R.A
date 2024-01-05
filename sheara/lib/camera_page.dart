@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
+import 'dart:io';
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final cameras = await availableCameras();
-  final firstCamera = cameras.first;
+  final camera = await initializeCamera();
+  runApp(MyApp(camera: camera));
+}
 
-  runApp(MyApp(camera: firstCamera));
+Future<CameraDescription> initializeCamera() async {
+  final cameras = await availableCameras();
+  return cameras.first;
 }
 
 class MyApp extends StatelessWidget {
@@ -33,16 +37,16 @@ class CameraScreen extends StatefulWidget {
 
 class _CameraScreenState extends State<CameraScreen> {
   late CameraController controller;
+  XFile? capturedImage; // Variable to store the captured image file
 
   @override
   void initState() {
     super.initState();
     controller = CameraController(widget.camera, ResolutionPreset.medium);
     controller.initialize().then((_) {
-      if (!mounted) {
-        return;
+      if (mounted) {
+        setState(() {});
       }
-      setState(() {});
     });
   }
 
@@ -51,10 +55,76 @@ class _CameraScreenState extends State<CameraScreen> {
     if (!controller.value.isInitialized) {
       return Container();
     }
-    return AspectRatio(
-      aspectRatio: controller.value.aspectRatio,
-      child: CameraPreview(controller),
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Camera',
+          style: TextStyle(
+            color: Color.fromARGB(
+                255, 255, 255, 255), // Change the text color here
+          ),
+        ),
+        backgroundColor: Color.fromARGB(
+            255, 27, 175, 133), // Change the background color here
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            child: capturedImage == null
+                ? AspectRatio(
+                    aspectRatio: controller.value.aspectRatio,
+                    child: CameraPreview(controller),
+                  )
+                : Image.file(
+                    File(capturedImage!.path)), // Display captured image
+          ),
+          SizedBox(height: 16),
+          // Shutter Button
+          GestureDetector(
+            onTap: () {
+              _captureImage();
+            },
+            child: Container(
+              padding: EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.white,
+              ),
+              child: Icon(
+                Icons.camera,
+                size: 40,
+                color: Colors.black,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
+  }
+
+  void _captureImage() async {
+    if (!controller.value.isInitialized) {
+      return;
+    }
+
+    try {
+      XFile file = await controller.takePicture();
+      // Handle the captured image file
+      if (mounted) {
+        setState(() {
+          capturedImage = file;
+        });
+      }
+    } catch (e) {
+      print('Error capturing image: $e');
+      // Show an error message to the user
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error capturing image. Please try again.'),
+        ),
+      );
+    }
   }
 
   @override
