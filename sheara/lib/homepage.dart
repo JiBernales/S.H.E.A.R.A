@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:location/location.dart';
+import 'package:sheara/camera_page.dart';
+import 'package:sheara/microphone_page.dart';
+import 'package:sheara/video_page.dart';
 import '../database/accountsDatabase.dart';
 import '../database/signalsDatabase.dart';
 import '../model/account.dart';
@@ -10,6 +13,7 @@ import 'about_page.dart';
 import 'guide.dart';
 import 'send_sos.dart';
 import 'settings.dart';
+import 'package:camera/camera.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -156,8 +160,33 @@ class HomePageState extends State<HomePage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      SquareButton(imageAsset: 'assets/camera.png'),
-                      SquareButton(imageAsset: 'assets/video.png'),
+                      SquareButton(
+                        imageAsset: 'assets/camera.png',
+                        onTap: () async {
+                          CameraDescription firstCamera =
+                              await initializeCamera();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  CameraScreen(camera: firstCamera),
+                            ),
+                          );
+                        },
+                      ),
+                      SquareButton(
+                        imageAsset: 'assets/video.png',
+                        onTap: () async {
+                          CameraDescription firstCamera =
+                              await initializeCamera();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    VideoPage(camera: firstCamera)),
+                          );
+                        },
+                      ),
                     ],
                   ),
                   GestureDetector(
@@ -176,7 +205,16 @@ class HomePageState extends State<HomePage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      SquareButton(imageAsset: 'assets/microphone.png'),
+                      SquareButton(
+                        imageAsset: 'assets/microphone.png',
+                        onTap: () async {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => VoiceRecorderPage()),
+                          );
+                        },
+                      ),
                       SquareButton(imageAsset: 'assets/chat.png'),
                     ],
                   ),
@@ -236,50 +274,49 @@ class HomePageState extends State<HomePage> {
     );
   }
 
-  Future<void> navigateToSendSOSPage(BuildContext context, int urgencyLevel) async {
+  Future<void> navigateToSendSOSPage(
+      BuildContext context, int urgencyLevel) async {
     Location location = Location();
-    LocationData? userLocation =
-    await location.getLocation();
+    LocationData? userLocation = await location.getLocation();
 
     helpSignal newSignal = helpSignal(
-        victimName: widget.currentUser.dispname,
-        urgencyLevel: UrgencyLevel.values[urgencyLevel],
-        lastSeenLocation:
-          "${userLocation.latitude}, ${userLocation.longitude}",
+      victimName: widget.currentUser.dispname,
+      urgencyLevel: UrgencyLevel.values[urgencyLevel],
+      lastSeenLocation: "${userLocation.latitude}, ${userLocation.longitude}",
     );
     try {
       await helpSignalsDatabase.instance.create(newSignal);
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('Help status updated!')));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Help status updated!')));
       Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => SendSOSPage(currentUser: widget.currentUser),
         ),
       );
-    }
-
-    catch (e) {
+    } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text(
-                'Sorry, something went wrong while asking for help. Error: $e')));
-      }
+          content: Text(
+              'Sorry, something went wrong while asking for help. Error: $e')));
+    }
   }
-
-
 }
 
 class SquareButton extends StatelessWidget {
   final String imageAsset;
+  final Function()? onTap; // Add this line
 
-  SquareButton({required this.imageAsset});
+  SquareButton({required this.imageAsset, this.onTap}); // Add this line
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Image.asset(
-        imageAsset,
-        width: 100, // Adjust the width as needed
+    return GestureDetector(
+      onTap: onTap, // Add this line
+      child: Center(
+        child: Image.asset(
+          imageAsset,
+          width: 100, // Adjust the width as needed
+        ),
       ),
     );
   }
