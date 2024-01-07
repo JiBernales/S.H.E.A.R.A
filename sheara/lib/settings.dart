@@ -71,6 +71,7 @@ class Settings extends StatelessWidget {
                 ),
                 const SizedBox(
                     height: 10), // Add some spacing between the checkbox rows
+
                 Container(
                   color: Color.fromARGB(192, 195, 203, 211), //changed color
                   padding: const EdgeInsets.all(10.0),
