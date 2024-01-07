@@ -32,45 +32,47 @@ class Settings extends StatelessWidget {
                     color: Colors.white,
                   ),
                 ),
-                const Row(
+                const SizedBox(
+                    height:
+                        10), // Add some spacing between the icon and the checkboxes
+                Row(
                   children: <Widget>[
-                    Checkbox(
-                      value: false,
-                      onChanged: null,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Checkbox(
+                        value: false,
+                        onChanged: null,
+                      ),
                     ),
                     Text("Dark Mode"),
-                    Checkbox(
-                      value: false,
-                      onChanged: null,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Checkbox(
+                        value: false,
+                        onChanged: null,
+                      ),
                     ),
                     Text("Notification"),
                   ],
                 ),
-                const Row(
+                const SizedBox(
+                    height: 10), // Add some spacing between the checkbox rows
+                Row(
                   children: <Widget>[
-                    Checkbox(
-                      value: false,
-                      onChanged: null,
-                    ),
-                    Text("Allow access to camera"),
-                    Checkbox(
-                      value: false,
-                      onChanged: null,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Checkbox(
+                        value: false,
+                        onChanged: null,
+                      ),
                     ),
                     Text("Sound"),
                   ],
                 ),
-                const Row(
-                  children: <Widget>[
-                    Checkbox(
-                      value: false,
-                      onChanged: null,
-                    ),
-                    Text("Allow access to microphone"),
-                  ],
-                ),
+                const SizedBox(
+                    height: 10), // Add some spacing between the checkbox rows
                 Container(
-                  color: Color.fromARGB(192, 32, 64, 95), //changed color
+                  color: Color.fromARGB(192, 195, 203, 211), //changed color
                   padding: const EdgeInsets.all(10.0),
                   child: Column(
                     children: <Widget>[
