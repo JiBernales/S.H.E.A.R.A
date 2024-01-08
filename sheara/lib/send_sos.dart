@@ -24,7 +24,6 @@ class _SendSOSPageState extends State<SendSOSPage> {
   late Location _location;
   List<Marker> _mapMarkers = [];
 
-
   @override
   void initState() {
     super.initState();
@@ -47,51 +46,56 @@ class _SendSOSPageState extends State<SendSOSPage> {
 
   Future<void> _loadHelpSignals(List<Marker> _mapMarkers) async {
     List<Marker> markers = [];
-    markers.add(
-      Marker(
-        width: 50.0,
-        height: 50.0,
-        point: LatLng(_currentLocation.latitude!, _currentLocation.longitude!),
-        child: Icon(
-          Icons.location_pin,
-          color: Colors.black,
-        ),
-      ),
-    );
-
-    List<helpSignal> helpSignals = await helpSignalsDatabase.instance.getAllHelpSignals();
-    for (var signal in helpSignals) {
-      Color markerColor = Colors.blue;
-
-      if (signal.urgencyLevel == "Advisory") {
-        markerColor = Colors.blue;
-      }
-      else if (signal.urgencyLevel == "Low") {
-        markerColor = Color.fromARGB(255, 59, 200, 8);
-      }
-      else if (signal.urgencyLevel == "Medium") {
-        markerColor = Color.fromARGB(255, 224, 192, 8);
-      }
-      else if (signal.urgencyLevel == "High") {
-        markerColor = Color.fromARGB(255, 226, 105, 5);
-      }
-      else if (signal.urgencyLevel == "Critical") {
-        markerColor = Color.fromARGB(255, 222, 11, 11);
-      }
-
-      double lats = signal.lastSeenLatitude ?? 0.0;
-      double longs = signal.lastSeenLongitude ?? 0.0;
+    try {
       markers.add(
         Marker(
-          width: 40.0,
-          height: 40.0,
-          point: LatLng(lats, longs),
+          width: 50.0,
+          height: 50.0,
+          point: LatLng(_currentLocation.latitude!, _currentLocation.longitude!),
           child: Icon(
             Icons.location_pin,
-            color: markerColor,
+            color: Colors.black,
           ),
         ),
       );
+
+      List<helpSignal> helpSignals = await helpSignalsDatabase.instance.getAllHelpSignals();
+      for (var signal in helpSignals) {
+        Color markerColor = Colors.blue;
+
+        if (signal.urgencyLevel == "Advisory") {
+          markerColor = Colors.blue;
+        }
+        else if (signal.urgencyLevel == "Low") {
+          markerColor = Color.fromARGB(255, 59, 200, 8);
+        }
+        else if (signal.urgencyLevel == "Medium") {
+          markerColor = Color.fromARGB(255, 224, 192, 8);
+        }
+        else if (signal.urgencyLevel == "High") {
+          markerColor = Color.fromARGB(255, 226, 105, 5);
+        }
+        else if (signal.urgencyLevel == "Critical") {
+          markerColor = Color.fromARGB(255, 222, 11, 11);
+        }
+
+        double lats = signal.lastSeenLatitude ?? 0.0;
+        double longs = signal.lastSeenLongitude ?? 0.0;
+        markers.add(
+          Marker(
+              width: 40.0,
+              height: 40.0,
+              point: LatLng(lats, longs),
+              child: Icon(
+                Icons.location_pin,
+                color: markerColor,
+              ),
+            ),
+          );
+      }
+
+    } catch (e) {
+      print('Error loading help signals: $e');
     }
 
     setState(() {
@@ -105,7 +109,6 @@ class _SendSOSPageState extends State<SendSOSPage> {
     String uColor2 = uColor1.replaceAll(remove1, '');
     String remove2 = ')';
     String navColor = uColor2.replaceAll(remove2, '');
-    List<Marker> mapMarkers = _mapMarkers;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(int.parse(navColor)),
@@ -176,7 +179,7 @@ class _SendSOSPageState extends State<SendSOSPage> {
                 userAgentPackageName: 'com.example.app',
               ),
               MarkerLayer(
-                markers: mapMarkers,
+                markers: _mapMarkers,
                 /*[
                   Marker(
                     width: 40.0,
