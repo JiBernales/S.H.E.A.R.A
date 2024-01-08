@@ -80,61 +80,81 @@ class _UserProfileState extends State<UserProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              // Existing information display
-              Container(
-                color: Color.fromARGB(192, 195, 203, 211),
-                padding: const EdgeInsets.all(10.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    const Text(
-                      "Personal Information",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 20,
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    isEditing
-                        ? _buildTextField(
-                            "Student Number", studentNumberController)
-                        : _buildDisplayField(
-                            "Student Number:", studentNumber.toString()),
-                    isEditing
-                        ? _buildTextField("Username", usernameController)
-                        : _buildDisplayField("Username:", username),
-                    isEditing
-                        ? _buildTextField("Password", passwordController)
-                        : _buildDisplayField("Password:", password),
-                    isEditing
-                        ? _buildTextField(
-                            "Parent's Contact", parentContactController)
-                        : _buildDisplayField(
-                            "Parent's Contact:", parentContact),
-                    isEditing
-                        ? _buildTextField(
-                            "Guardian's Contact", guardianContactController)
-                        : _buildDisplayField(
-                            "Guardian's Contact:", guardianContact),
-                  ],
+      appBar: AppBar(
+        backgroundColor: Color.fromARGB(255, 137, 149, 155),
+        title: Text("Profile"),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
+      body: Center(
+        child: SingleChildScrollView(
+          child: Container(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                const Icon(
+                  Icons.person_rounded,
+                  size: 75,
+                  color: Color.fromARGB(255, 143, 143, 143),
                 ),
-              ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    isEditing = !isEditing;
-                  });
-                },
-                child: Text(isEditing ? "Save" : "Edit"),
-              ),
-            ],
+                Container(
+                  color: Color.fromARGB(192, 195, 203, 211),
+                  padding: const EdgeInsets.all(30),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      const Text(
+                        "Personal Information",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                        ),
+                      ),
+                      SizedBox(height: 20), // Adjusted spacing
+                      isEditing
+                          ? _buildTextField(
+                              "Student Number", studentNumberController)
+                          : _buildDisplayField(
+                              "Student Number:", studentNumber.toString()),
+                      SizedBox(height: 10), // Adjusted spacing
+                      isEditing
+                          ? _buildTextField("Username", usernameController)
+                          : _buildDisplayField("Username:", username),
+                      SizedBox(height: 10), // Adjusted spacing
+                      isEditing
+                          ? _buildTextField("Password", passwordController)
+                          : _buildDisplayField("Password:", password),
+                      SizedBox(height: 10), // Adjusted spacing
+                      isEditing
+                          ? _buildTextField(
+                              "Parent's Contact", parentContactController)
+                          : _buildDisplayField(
+                              "Parent's Contact:", parentContact),
+                      SizedBox(height: 10), // Adjusted spacing
+                      isEditing
+                          ? _buildTextField(
+                              "Guardian's Contact", guardianContactController)
+                          : _buildDisplayField(
+                              "Guardian's Contact:", guardianContact),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      isEditing = !isEditing;
+                    });
+                  },
+                  child: Text(isEditing ? "Save" : "Edit"),
+                ),
+              ],
+            ),
           ),
         ),
       ),
