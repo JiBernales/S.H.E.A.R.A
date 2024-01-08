@@ -110,7 +110,11 @@ class _CameraScreenState extends State<CameraScreen> {
 
     try {
       XFile file = await controller.takePicture();
-      // Handle the captured image file
+
+      // Save the captured image file to device storage
+      await saveImageToStorage(file);
+
+      //Update UI to display the captured image
       if (mounted) {
         setState(() {
           capturedImage = file;
@@ -124,6 +128,20 @@ class _CameraScreenState extends State<CameraScreen> {
           content: Text('Error capturing image. Please try again.'),
         ),
       );
+    }
+  }
+
+  Future<void> saveImageToStorage(XFile imageFile) async {
+    try {
+      //get the directory for saving files
+      final appDir = await getApplicationDocumentsDirectory();
+      // construct the file path
+      const filePath = '{appDir.path/my_captured_image.png}';
+      //copy the captured image to the desired location
+      await File(imageFile.path).copy(filePath);
+      print('Image saved to: $filePath');
+    } catch (e) {
+      print('Error saving image to storage: $e');
     }
   }
 
