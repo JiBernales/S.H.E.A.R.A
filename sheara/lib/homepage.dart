@@ -111,9 +111,7 @@ class HomePageState extends State<HomePage> {
         actions: [
           PopupMenuButton<String>(
             onSelected: (value) {
-              if (value == 'preference') {
-                // Handle preference
-              } else if (value == 'guide') {
+              if (value == 'guide') {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => GuidePage()),
