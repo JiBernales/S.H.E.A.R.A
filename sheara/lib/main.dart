@@ -16,8 +16,7 @@ void main() async {
 
   bool isDatabaseEmpty1 = await accountsDatabase.instance.isDatabaseEmpty();
   Location location = Location();
-  LocationData? userLocation =
-    await location.getLocation();
+  LocationData? userLocation = await location.getLocation();
   // If the database is empty, add dummy accounts
   if (isDatabaseEmpty1) {
     List<account> dummyAccounts = [
@@ -130,7 +129,7 @@ class MyAppHomePage extends StatelessWidget {
                 Transform.scale(
                   scale: 1.5,
                   child: Image.asset(
-                    'assets/animal.gif',
+                    'assets/hi.gif',
                     width: 300,
                     height: 300,
                   ),

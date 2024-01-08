@@ -204,7 +204,7 @@ class HomePageState extends State<HomePage> {
                     child: Transform.scale(
                       scale: 1.5,
                       child: Image.asset(
-                        'assets/snake_button.png',
+                        'assets/red_button.png',
                         width: 150,
                         height: 150,
                       ),
