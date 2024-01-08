@@ -36,6 +36,7 @@ class _VoiceRecorderPageState extends State<VoiceRecorderPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Voice Recorder'),
+        backgroundColor: Color.fromARGB(219, 245, 131, 0),
       ),
       body: Center(
         child: Column(
@@ -44,6 +45,7 @@ class _VoiceRecorderPageState extends State<VoiceRecorderPage> {
             IconButton(
               icon: Icon(_isRecording ? Icons.stop : Icons.mic),
               iconSize: 48.0,
+              color: Color.fromARGB(255, 243, 33, 33),
               onPressed: () {
                 if (_isRecording) {
                   _stopRecording();
@@ -52,7 +54,9 @@ class _VoiceRecorderPageState extends State<VoiceRecorderPage> {
                 }
               },
             ),
-            SizedBox(height: 20.0),
+            SizedBox(
+              height: 20.0,
+            ),
             Text(
               _isRecording ? 'Recording...' : 'Tap to Record',
               style: TextStyle(fontSize: 18.0),
