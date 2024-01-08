@@ -43,6 +43,7 @@ class accountsDatabase {
     const textType = 'TEXT NOT NULL';
     const boolType = 'BOOLEAN NOT NULL';
     const integerType = 'INTEGER';
+    const realType = 'REAL';
 
     await db.execute('''
     CREATE TABLE $accountsTable ( 
@@ -56,7 +57,8 @@ class accountsDatabase {
       ${accountsFields.dispname} $textType,
       ${accountsFields.favColor} $textType,
       ${accountsFields.time} $textType,
-      ${accountsFields.lastSeenLocation} $textType,
+      ${accountsFields.lastSeenLatitude} $realType,
+      ${accountsFields.lastSeenLongitude} $realType,
       ${accountsFields.lastSeenTime} $textType,
       ${accountsFields.needsHelp} $boolType
     )
@@ -153,7 +155,8 @@ class accountsDatabase {
         dispname: maps[i][accountsFields.dispname],
         favColor: maps[i][accountsFields.favColor],
         timeCreated: DateTime.parse(maps[i][accountsFields.time]),
-        lastSeenLocation: maps[i][accountsFields.lastSeenLocation],
+        lastSeenLatitude: maps[i][accountsFields.lastSeenLatitude],
+        lastSeenLongitude: maps[i][accountsFields.lastSeenLongitude],
         lastSeenTime: DateTime.parse(maps[i][accountsFields.lastSeenTime]),
         needsHelp: maps[i][accountsFields.needsHelp] == 0,
       );

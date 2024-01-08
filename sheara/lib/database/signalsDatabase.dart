@@ -17,6 +17,13 @@ class helpSignalsDatabase {
     return _database!;
   }
 
+  Future<bool> isDatabaseEmpty() async {
+    final db = await instance.database;
+    final count = Sqflite.firstIntValue(await db.rawQuery('SELECT COUNT(*) FROM $signalsTable'));
+
+    return count == 0;
+  }
+
   Future<Database> _initDB(String filePath) async {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, filePath);
@@ -36,13 +43,16 @@ class helpSignalsDatabase {
     const idType = 'INTEGER PRIMARY KEY AUTOINCREMENT';
     const textType = 'TEXT NOT NULL';
     const integerType = 'INTEGER';
+    const realType = 'REAL';
 
     await db.execute('''
     CREATE TABLE $signalsTable ( 
       ${signalsFields.id} $idType,
       ${signalsFields.victimName} $textType,
-      ${signalsFields.urgencyLevel} $integerType,
-      ${signalsFields.lastSeenLocation} $textType
+      ${signalsFields.urgencyLevel} $textType,
+      ${signalsFields.lastSeenLatitude} $realType,
+      ${signalsFields.lastSeenLongitude} $realType,
+      ${signalsFields.lastSeenTime} $textType
     )
   ''');
   }
@@ -62,8 +72,10 @@ class helpSignalsDatabase {
       return helpSignal(
         id: maps[i][signalsFields.id],
         victimName: maps[i][signalsFields.victimName],
-        urgencyLevel: UrgencyLevel.values[maps[i]['urgencyLevel']],
-        lastSeenLocation: maps[i][signalsFields.lastSeenLocation],
+        urgencyLevel: maps[i][signalsFields.urgencyLevel],
+        lastSeenLatitude: maps[i][signalsFields.lastSeenLatitude],
+        lastSeenLongitude: maps[i][signalsFields.lastSeenLongitude],
+        lastSeenTime: DateTime.parse(maps[i][signalsFields.lastSeenTime]),
       );
     });
   }

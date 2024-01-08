@@ -25,7 +25,7 @@
       setState(() => pickerColor = color);
     }
   
-    Future<void> _showColorPicker() {
+    /*Future<void> _showColorPicker() {
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -39,7 +39,7 @@
                 showLabel: true,
               ),
   
-              /*
+              *//*
               child: SlidePicker(
                 pickerColor: pickerColor,
                 onColorChanged: changeColor,
@@ -50,15 +50,15 @@
                 showIndicator: true,
                 indicatorBorderRadius: const BorderRadius.vertical(top: Radius.circular(25)),
               )
-              */
-              /*
+              *//*
+              *//*
               child: HueRingPicker(
                 pickerColor: pickerColor,
                 onColorChanged: changeColor,
                 enableAlpha: false,
                 displayThumbColor: true,
               ),
-              */
+              *//*
             ),
             actions: <Widget>[
               ElevatedButton(
@@ -73,7 +73,7 @@
         },
       );
       return Future.value();
-    }
+    }*/
   
     void _navigateToLoginScreen() {
       Navigator.push(
@@ -185,7 +185,7 @@
                         ),
                         textAlign: TextAlign.center, // Center-align the text
                       ),
-                      const SizedBox(height: 5.0),
+                      /*const SizedBox(height: 5.0),
                       GestureDetector(
                         onTap: () async {
                           await _showColorPicker();
@@ -206,7 +206,7 @@
                             ),
                           ],
                         ),
-                      ),
+                      ),*/
                       const SizedBox(height: 5.0),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -286,8 +286,8 @@
                             isAuthenticated: false,
                             isStudent: _isStudent,
                             timeCreated: DateTime.now(),
-                            lastSeenLocation:
-                                "${userLocation.latitude}, ${userLocation.longitude}",
+                            lastSeenLatitude: userLocation.latitude,
+                            lastSeenLongitude: userLocation.longitude,
                             lastSeenTime: DateTime.now(),
                             needsHelp: false,
                           );

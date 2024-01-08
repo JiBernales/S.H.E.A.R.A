@@ -39,7 +39,7 @@ class HomePageState extends State<HomePage> {
     _mapController = MapController();
     _location = Location();
     _currentLocation =
-        LocationData.fromMap({'latitude': 10.640960, 'longitude': 122.237747});
+        LocationData.fromMap({'latitude': 10.6419, 'longitude': 122.2310});
 
     _location.onLocationChanged.listen((LocationData locationData) {
       setState(() {
@@ -240,32 +240,32 @@ class HomePageState extends State<HomePage> {
                 color: Color.fromARGB(255, 222, 11, 11),
                 onToggleHelpStatus: _toggleHelpStatus,
                 buttonText: 'Critical',
-                onTap: () => navigateToSendSOSPage(context, 4),
+                onTap: () => navigateToSendSOSPage(context, 'Critical'),
               ),
               // Add other colored buttons here with their respective logic
               CircleButton(
                 color: Color.fromARGB(255, 226, 105, 5),
                 onToggleHelpStatus: _toggleHelpStatus,
                 buttonText: 'High',
-                onTap: () => navigateToSendSOSPage(context, 3),
+                onTap: () => navigateToSendSOSPage(context, 'High'),
               ),
               CircleButton(
                 color: Color.fromARGB(255, 224, 192, 8),
                 onToggleHelpStatus: _toggleHelpStatus,
                 buttonText: 'Medium',
-                onTap: () => navigateToSendSOSPage(context, 2),
+                onTap: () => navigateToSendSOSPage(context, 'Medium'),
               ),
               CircleButton(
                 color: Color.fromARGB(255, 59, 200, 8),
                 onToggleHelpStatus: _toggleHelpStatus,
                 buttonText: 'Low',
-                onTap: () => navigateToSendSOSPage(context, 1),
+                onTap: () => navigateToSendSOSPage(context, 'Low'),
               ),
               CircleButton(
                 color: Colors.blue,
                 onToggleHelpStatus: _toggleHelpStatus,
                 buttonText: 'Advisory',
-                onTap: () => navigateToSendSOSPage(context, 0),
+                onTap: () => navigateToSendSOSPage(context, 'Advisory'),
               ),
             ],
           ),
@@ -275,14 +275,16 @@ class HomePageState extends State<HomePage> {
   }
 
   Future<void> navigateToSendSOSPage(
-      BuildContext context, int urgencyLevel) async {
+      BuildContext context, String level) async {
     Location location = Location();
     LocationData? userLocation = await location.getLocation();
 
     helpSignal newSignal = helpSignal(
       victimName: widget.currentUser.dispname,
-      urgencyLevel: UrgencyLevel.values[urgencyLevel],
-      lastSeenLocation: "${userLocation.latitude}, ${userLocation.longitude}",
+      urgencyLevel: level,
+      lastSeenLatitude: userLocation.latitude,
+      lastSeenLongitude: userLocation.longitude,
+      lastSeenTime: DateTime.now(),
     );
     try {
       await helpSignalsDatabase.instance.create(newSignal);

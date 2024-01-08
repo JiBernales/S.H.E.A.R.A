@@ -1,9 +1,10 @@
+import 'dart:ffi';
 import 'package:bcrypt/bcrypt.dart';
 final String accountsTable = 'accounts';
 
 class accountsFields {
   static final List<String> values = [
-    id, password, isAuthenticated, isStudent,  idNumber, firstname, lastname, dispname, favColor, time, lastSeenLocation, lastSeenTime, needsHelp
+    id, password, isAuthenticated, isStudent,  idNumber, firstname, lastname, dispname, favColor, time, lastSeenLatitude, lastSeenLongitude, lastSeenTime, needsHelp
   ];
   static final String id = '_id';
   static final String password = 'password';
@@ -15,7 +16,8 @@ class accountsFields {
   static final String dispname = 'dispname';
   static final String favColor = 'favColor';
   static final String time = 'time';
-  static final String lastSeenLocation = 'lastSeenLocation';
+  static final String lastSeenLatitude = 'lastSeenLatitude';
+  static final String lastSeenLongitude = 'lastSeenLongitude';
   static final String lastSeenTime = 'lastSeenTime';
   static final String needsHelp = 'needsHelp';
 }
@@ -31,12 +33,13 @@ class account {
   String dispname;
   String favColor;
   final DateTime timeCreated;
-  String lastSeenLocation;
+  double? lastSeenLatitude;
+  double? lastSeenLongitude;
   DateTime lastSeenTime;
   bool needsHelp;
 
   void updateLocation(String newLocation) {
-    lastSeenLocation = newLocation;
+
   }
 
   void updateLastSeenTime() {
@@ -54,7 +57,8 @@ class account {
     required this.dispname,
     required this.favColor,
     required this.timeCreated,
-    required this.lastSeenLocation,
+    required this.lastSeenLatitude,
+    required this.lastSeenLongitude,
     required this.lastSeenTime,
     required this.needsHelp,
 
@@ -71,7 +75,8 @@ class account {
     String? dispname,
     String? favColor,
     DateTime? timeCreated,
-    String? lastSeenLocation,
+    double? lastSeenLatitude,
+    double? lastSeenLongitude,
     DateTime? lastSeenTime,
     bool? needsHelp,
   }) =>
@@ -86,7 +91,8 @@ class account {
       dispname: dispname ?? this.dispname,
       favColor: favColor ?? this.favColor,
       timeCreated: timeCreated ?? this.timeCreated,
-      lastSeenLocation: lastSeenLocation ?? this.lastSeenLocation,
+      lastSeenLatitude: lastSeenLatitude ?? this.lastSeenLatitude,
+      lastSeenLongitude: lastSeenLongitude ?? this.lastSeenLongitude,
       lastSeenTime: lastSeenTime ?? this.lastSeenTime,
       needsHelp: needsHelp ?? this.needsHelp,
     );
@@ -102,7 +108,8 @@ class account {
     dispname: json[accountsFields.dispname] as String,
     favColor: json[accountsFields.favColor] as String,
     timeCreated: DateTime.parse(json[accountsFields.time] as String),
-    lastSeenLocation: json[accountsFields.lastSeenLocation] as String,
+    lastSeenLatitude: json[accountsFields.lastSeenLatitude] as double?,
+    lastSeenLongitude: json[accountsFields.lastSeenLongitude] as double?,
     lastSeenTime: DateTime.parse(json[accountsFields.lastSeenTime] as String),
     needsHelp: json[accountsFields.needsHelp] == 0,
   );
@@ -118,7 +125,8 @@ class account {
     accountsFields.dispname: dispname,
     accountsFields.favColor: favColor,
     accountsFields.time: timeCreated.toIso8601String(),
-    accountsFields.lastSeenLocation: lastSeenLocation,
+    accountsFields.lastSeenLatitude: lastSeenLatitude,
+    accountsFields.lastSeenLongitude: lastSeenLongitude,
     accountsFields.lastSeenTime: lastSeenTime.toIso8601String(),
     accountsFields.needsHelp: needsHelp ? 1 : 0,
   };

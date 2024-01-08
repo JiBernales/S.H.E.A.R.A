@@ -62,7 +62,7 @@ class _AccountsMasterlistState extends State<AccountsMasterlist> {
                       Text('Name: ${accounts[index].firstname} ${accounts[index].lastname}'),
                       Text('Definitely not the password: ${accounts[index].password}'),
                       Text('Account Creation Date: ${accounts[index].timeCreated}'),
-                      Text('Last Seen Location: ${accounts[index].lastSeenLocation}'),
+                      Text('Last Seen Location: ${accounts[index].lastSeenLatitude}, ${accounts[index].lastSeenLongitude}'),
                       Text('Last Seen Time: ${accounts[index].lastSeenTime}'),
                       Text(accounts[index].needsHelp ? 'Inactive' : 'Needs Help'),
                       Column(

@@ -1,5 +1,7 @@
+import 'dart:ffi';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:location/location.dart';
 import 'database/accountsDatabase.dart';
 import 'database/signalsDatabase.dart';
 import 'model/account.dart';
@@ -12,10 +14,12 @@ import 'mapScreen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  bool isDatabaseEmpty = await accountsDatabase.instance.isDatabaseEmpty();
-
+  bool isDatabaseEmpty1 = await accountsDatabase.instance.isDatabaseEmpty();
+  Location location = Location();
+  LocationData? userLocation =
+    await location.getLocation();
   // If the database is empty, add dummy accounts
-  if (isDatabaseEmpty) {
+  if (isDatabaseEmpty1) {
     List<account> dummyAccounts = [
       account(
         idNumber: 2019,
@@ -25,8 +29,8 @@ void main() async {
         isAuthenticated: false,
         isStudent: true,
         timeCreated: DateTime.now(),
-        lastSeenLocation:
-        "${10.6407}, ${122.2274}",
+        lastSeenLatitude: 10.6407,
+        lastSeenLongitude: 122.2274,
         lastSeenTime: DateTime.now(),
         needsHelp: false,
       ),
@@ -38,8 +42,8 @@ void main() async {
         isAuthenticated: false,
         isStudent: true,
         timeCreated: DateTime.now(),
-        lastSeenLocation:
-        "${10.6407}, ${122.2330}",
+        lastSeenLatitude: 10.6407,
+        lastSeenLongitude: 122.2330,
         lastSeenTime: DateTime.now(),
         needsHelp: false,
       ),
@@ -51,6 +55,33 @@ void main() async {
   }
   // Dummy accounts
 
+  bool isDatabaseEmpty2 = await helpSignalsDatabase.instance.isDatabaseEmpty();
+  // If the database is empty, add dummy accounts
+  if (isDatabaseEmpty2) {
+    List<helpSignal> dummySignals = [
+      helpSignal(
+        id: 0,
+        victimName: "Hadjie",
+        urgencyLevel: "Low",
+        lastSeenLatitude: 10.6407,
+        lastSeenLongitude: 122.2274,
+        lastSeenTime: DateTime.now(),
+      ),
+      helpSignal(
+        id: 1,
+        victimName: "Lamao",
+        urgencyLevel: "Advisory",
+        lastSeenLatitude: 10.6407,
+        lastSeenLongitude: 122.2330,
+        lastSeenTime: DateTime.now(),
+      ),
+    ];
+
+    for (var dummySignal in dummySignals) {
+      await helpSignalsDatabase.instance.create(dummySignal);
+    }
+  }
+  // Dummy help signals
 
   runApp(MaterialApp(home: MyApp()));
 }
