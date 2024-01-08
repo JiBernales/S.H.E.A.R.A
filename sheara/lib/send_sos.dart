@@ -179,8 +179,8 @@ class _SendSOSPageState extends State<SendSOSPage> {
                 userAgentPackageName: 'com.example.app',
               ),
               MarkerLayer(
-                markers: _mapMarkers,
-                /*[
+                markers: //_mapMarkers,
+                [
                   Marker(
                     width: 40.0,
                     height: 40.0,
@@ -191,7 +191,7 @@ class _SendSOSPageState extends State<SendSOSPage> {
                     ),
                   )
 
-                ],*/
+                ],
               ),
             ],
           ),
