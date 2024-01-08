@@ -3,6 +3,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:location/location.dart';
 import 'package:sheara/camera_page.dart';
+import 'package:sheara/userprofile.dart';
 import 'package:sheara/microphone_page.dart';
 import 'package:sheara/video_page.dart';
 import '../database/accountsDatabase.dart';
@@ -104,14 +105,23 @@ class HomePageState extends State<HomePage> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => Settings()),
+              MaterialPageRoute(
+                builder: (context) =>
+                    UserProfile(currentUser: widget.currentUser),
+              ),
             );
           },
         ),
+
         actions: [
           PopupMenuButton<String>(
             onSelected: (value) {
-              if (value == 'guide') {
+              if (value == 'Settings') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Settings()),
+                );
+              } else if (value == 'guide') {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => GuidePage()),
@@ -126,8 +136,8 @@ class HomePageState extends State<HomePage> {
             itemBuilder: (BuildContext context) {
               return [
                 PopupMenuItem(
-                  value: 'preference',
-                  child: Text('Preference'),
+                  value: 'Settings',
+                  child: Text('Settings'),
                 ),
                 PopupMenuItem(
                   value: 'guide',
@@ -272,8 +282,7 @@ class HomePageState extends State<HomePage> {
     );
   }
 
-  Future<void> navigateToSendSOSPage(
-      BuildContext context, String level) async {
+  Future<void> navigateToSendSOSPage(BuildContext context, String level) async {
     Location location = Location();
     LocationData? userLocation = await location.getLocation();
 
