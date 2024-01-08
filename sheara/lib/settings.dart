@@ -22,126 +22,108 @@ class Settings extends StatelessWidget {
               color: Colors.grey,
               borderRadius: BorderRadius.circular(10.0),
             ),
-            child: Column(
-              children: <Widget>[
-                Container(
-                  padding: const EdgeInsets.all(10.0),
-                  child: const Icon(
-                    Icons.person,
-                    size: 48,
-                    color: Colors.white,
+            child: Form(
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    padding: const EdgeInsets.all(10.0),
+                    child: const Icon(
+                      Icons.person,
+                      size: 48,
+                      color: Colors.white,
+                    ),
                   ),
-                ),
-                const SizedBox(
-                    height:
-                        10), // Add some spacing between the icon and the checkboxes
-                Row(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Checkbox(
-                        value: false,
-                        onChanged: null,
-                      ),
-                    ),
-                    Text("Dark Mode"),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Checkbox(
-                        value: false,
-                        onChanged: null,
-                      ),
-                    ),
-                    Text("Notification"),
-                  ],
-                ),
-                const SizedBox(
-                    height: 10), // Add some spacing between the checkbox rows
-                Row(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Checkbox(
-                        value: false,
-                        onChanged: null,
-                      ),
-                    ),
-                    Text("Sound"),
-                  ],
-                ),
-                const SizedBox(
-                    height: 10), // Add some spacing between the checkbox rows
-
-                Container(
-                  color: Color.fromARGB(192, 195, 203, 211), //changed color
-                  padding: const EdgeInsets.all(10.0),
-                  child: Column(
-                    children: <Widget>[
-                      const Text(
-                        "Personal Information",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                        ),
-                      ),
-                      TextField(
-                        decoration: InputDecoration(
-                          labelText: "Student Number",
-                          border: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(15.0)),
-                          ),
-                        ),
-                      ),
-                      TextField(
-                        decoration: InputDecoration(
-                          labelText: "Username",
-                          border: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(15.0)),
-                          ),
-                        ),
-                      ),
-                      TextField(
-                        decoration: InputDecoration(
-                          labelText: "Password",
-                          border: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(15.0)),
-                          ),
-                        ),
-                      ),
-                      TextField(
-                        decoration: InputDecoration(
-                          labelText: "Parent's Contact Number",
-                          border: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(15.0)),
-                          ),
-                        ),
-                      ),
-                      TextField(
-                        decoration: InputDecoration(
-                          labelText: "Guardian's Contact Number",
-                          border: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(15.0)),
-                          ),
-                        ),
-                      ),
-                    ],
+                  const SizedBox(height: 10),
+                  SwitchListTile(
+                    value: false,
+                    onChanged: null,
+                    title: Text("Dark Mode"),
                   ),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    /*Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => HomePage(currentUser: existingAccount)),
-                    );*/
-                  },
-                  child: const Text("Save"),
-                ),
-              ],
+                  SwitchListTile(
+                    value: false,
+                    onChanged: null,
+                    title: Text("Notification"),
+                  ),
+                  const SizedBox(height: 10),
+                  SwitchListTile(
+                    value: false,
+                    onChanged: null,
+                    title: Text("Sound"),
+                  ),
+                  const SizedBox(height: 10),
+                  Container(
+                    color: Theme.of(context).canvasColor,
+                    padding: const EdgeInsets.all(10.0),
+                    child: Column(
+                      children: <Widget>[
+                        const Text(
+                          "Personal Information",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20,
+                          ),
+                        ),
+                        TextFormField(
+                          decoration: InputDecoration(
+                            labelText: "Student Number",
+                            border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(15.0)),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        TextFormField(
+                          decoration: InputDecoration(
+                            labelText: "Username",
+                            border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(15.0)),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        TextFormField(
+                          obscureText: true,
+                          decoration: InputDecoration(
+                            labelText: "Password",
+                            border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(15.0)),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        TextFormField(
+                          decoration: InputDecoration(
+                            labelText: "Parent's Contact Number",
+                            border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(15.0)),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        TextFormField(
+                          decoration: InputDecoration(
+                            labelText: "Guardian's Contact Number",
+                            border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(15.0)),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      // Handle save logic
+                    },
+                    child: const Text("Save"),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
