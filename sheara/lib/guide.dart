@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'settings.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class GuidePage extends StatefulWidget {
   const GuidePage({Key? key}) : super(key: key);
@@ -70,7 +71,8 @@ class _GuidePageState extends State<GuidePage> {
                           const Size(400, 50), // Change button width and height
                     ),
                     onPressed: () {
-                      // Open video tutorial 1
+                      _launchYouTubeVideo(
+                          'https://www.youtube.com/watch?v=oA7jf4WxLP8');
                     },
                     child: const Text(
                       'Video 1',
@@ -137,5 +139,15 @@ class _GuidePageState extends State<GuidePage> {
         ],
       ),
     );
+  }
+
+  _launchYouTubeVideo(String url) async {
+    // ignore: deprecated_member_use
+    if (await canLaunch(url)) {
+      // ignore: deprecated_member_use
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }
